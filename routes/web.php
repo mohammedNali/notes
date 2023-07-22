@@ -54,6 +54,8 @@ Route::resource('notes', NoteController::class)->only(['index', 'edit', 'update'
 //Route::post('/notes', [NoteController::class, 'store'])->name('notes.store');
 
 
+Route::get('/test', [\App\Http\Controllers\TestController::class, 'index']);
+
 
 //Route::get('/notes', [NoteController::class,'index']);
 //Route::get('/notes/{id}', [NoteController::class,'show']);

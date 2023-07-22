@@ -14,7 +14,16 @@ class NoteController extends Controller
     public function index()
     {
 //        $notes = Note::all();  // SELECT * FROM notes
-        $notes = Note::with('user')->latest()->get();
+        $notes = Note::where('user_id', auth()->id())->latest()->take(2)->get();
+//        $notes = Note::where('user_id', auth()->id())->latest()->get();
+
+//        $note = Note::where('user_id', auth()->id())->first();
+//        $note = Note::find(3);
+//        $note = Note::firstWhere('user_id', auth()->id());
+
+//        dd($note);
+
+//        $notes = Note::with('user')->latest()->get();
         return view('notes.index', [
             'notes' => $notes
         ]);

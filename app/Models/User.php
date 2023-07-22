@@ -45,11 +45,26 @@ class User extends Authenticatable
     ];
 
 
+    public function contact()
+    {
+        return $this->hasOne(Contact::class);
+    }
+
+
+
     // $user->notes
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
     }
+
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class,'role_user')->withTimestamps();
+    }
+
+
 
 
 }
