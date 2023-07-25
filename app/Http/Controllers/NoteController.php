@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class NoteController extends Controller
     public function index()
     {
 //        $notes = Note::all();  // SELECT * FROM notes
-        $notes = Note::where('user_id', auth()->id())->latest()->take(2)->get();
+        $tags = Tag::all();
+        $notes = Note::where('user_id', auth()->id())->latest()->take(5)->get();
+//        $notes = Note::latest()->take(5)->get();
 //        $notes = Note::where('user_id', auth()->id())->latest()->get();
 
 //        $note = Note::where('user_id', auth()->id())->first();
@@ -25,7 +28,8 @@ class NoteController extends Controller
 
 //        $notes = Note::with('user')->latest()->get();
         return view('notes.index', [
-            'notes' => $notes
+            'notes' => $notes,
+            'tags' => $tags
         ]);
     }
 
@@ -44,11 +48,23 @@ class NoteController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string',
-            'content' => 'required|string|max:255'
+            'content' => 'required|string|max:255',
+            'tags' => 'nullable|array'
         ]);
 
 
-        $request->user()->notes()->create($validated);
+//        $request->user()->notes()->create($validated);
+
+        $note = Note::create([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+            'user_id' => auth()->id()
+        ]);
+
+        if (isset($validated['tags'])) {
+//            $note->tags()->attach($validated['tags']);
+            $note->tags()->syncWithoutDetaching($validated['tags']);
+        }
 
 
 //        Note::create($validated);

@@ -9,6 +9,14 @@
                     placeholder="{{ __('What\'s on your mind?') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >{{ old('message') }}</textarea>
+
+            <label for="tags">Tags:</label>
+            <select name="tags[]" multiple>
+                @foreach($tags as $tag)
+                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                @endforeach
+            </select>
+
             <x-input-error :messages="$errors->store->get('message')" class="mt-2" />
             <x-primary-button class="mt-4">{{ __('Save') }}</x-primary-button>
         </form>
@@ -23,9 +31,10 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <span class="text-gray-800">{{ $note->user->name }}</span>
-                                <small class="ml-2 text-sm text-gray-600">{{ $note->updated_at->format('j M Y, g:i a') }}</small>
+                                <small class="ml-8 text-sm text-gray-600">{{ $note->updated_at->format('j M Y, g:i a') }}</small>
                             </div>
                         </div>
+                        <h2 class="mt-4 text-2xl text-gray-900">{{ $note->title }}</h2>
                         <p class="mt-4 text-lg text-gray-900">{{ $note->content }}</p>
                     </div>
                     @if ($note->user->is(auth()->user()))
