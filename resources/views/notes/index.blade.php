@@ -37,7 +37,7 @@
                         <h2 class="mt-4 text-2xl text-gray-900">{{ $note->title }}</h2>
                         <p class="mt-4 text-lg text-gray-900">{{ $note->content }}</p>
                     </div>
-                    @if ($note->user->is(auth()->user()))
+{{--                    @if ($note->user->is(auth()->user()))--}}
                         <x-dropdown>
                             <x-slot name="trigger">
                                 <button>
@@ -59,7 +59,7 @@
                                 </form>
                             </x-slot>
                         </x-dropdown>
-                    @endif
+{{--                    @endif--}}
                 </div>
             @endforeach
         </div>

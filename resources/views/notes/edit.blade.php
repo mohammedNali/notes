@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="حشفؤا" action="{{ route('notes.update', $note) }}">
+        <form method="POST" action="{{ route('notes.update', $note) }}">
             @csrf
-{{--            @method('patch')--}}
+            @method('patch')
             <input type="text" name="title" placeholder="{{ __('Note\'s Title') }}" value="{{ $note->title }}"
                    class="mb-2 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
 
