@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class NoteController extends Controller
 {
@@ -17,7 +19,7 @@ class NoteController extends Controller
 //        $notes = Note::all();  // SELECT * FROM notes
         $tags = Tag::all();
 //        $notes = Note::where('user_id', auth()->id())->latest()->take(5)->get();
-        $notes = Note::latest()->take(5)->get();
+        $notes = Note::latest()->take(10)->get();
 //        $notes = Note::where('user_id', auth()->id())->latest()->get();
 
 //        $note = Note::where('user_id', auth()->id())->first();
@@ -101,11 +103,23 @@ class NoteController extends Controller
     public function update(Request $request, Note $note)
     {
 
+//        if (Gate::denies('update-note', $note)) {
+//            abort(403);
+//        }
+//        if (! Gate::allows('update-note', $note)) {
+//            abort(403);
+//        }
+//        $user = User::find(5);
+//        if (! Gate::forUser($user)->allows('update-note', $note)) {
+//            abort(403);
+//        }
+        Gate::authorize('update-note', $note);
+
+
         $validated = $request->validate([
             'title' => 'required|string',
-            'content' => 'required|string|max:255',
+            'content' => 'required|string|max:255'
         ]);
-
 
         $note->update($validated);
 

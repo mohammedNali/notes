@@ -11,7 +11,7 @@
             >{{ old('message') }}</textarea>
 
             <label for="tags">Tags:</label>
-            <select name="tags[]" multiple>
+            <select name="tags[]">
                 @foreach($tags as $tag)
                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                 @endforeach
